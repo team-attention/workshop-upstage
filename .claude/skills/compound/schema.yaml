@@ -1,0 +1,146 @@
+# Deep Thought — Insight Documentation Schema
+
+required_fields:
+  domain:
+    type: enum
+    values: [guild, contents, community, business, knowledge]
+    description: "인사이트가 속하는 플라이휠 도메인"
+
+  date:
+    type: string
+    pattern: '^\d{4}-\d{2}-\d{2}$'
+    description: "인사이트가 도출된 날짜 (YYYY-MM-DD)"
+
+  insight_type:
+    type: enum
+    values:
+      - strategy_decision
+      - resource_allocation
+      - process_improvement
+      - tool_discovery
+      - automation_pattern
+      - consulting_pattern
+      - partner_playbook
+      - sales_learning
+      - product_insight
+      - content_pattern
+      - audience_signal
+      - community_insight
+      - event_learning
+      - market_signal
+      - ecosystem_observation
+      - culture_learning
+      - member_growth
+    description: "길드 운영에서 발생하는 인사이트의 유형"
+
+  component:
+    type: enum
+    values:
+      # guild
+      - operations
+      - culture
+      - hiring
+      - sync
+      - decision-making
+      - season-planning
+      # contents
+      - linkedin
+      - youtube
+      - studio-haein
+      - newsletter
+      - content-strategy
+      # community
+      - meetup
+      - club
+      - event
+      - online
+      # business
+      - consulting
+      - oss-product
+      - partnership
+      - sales
+      - company-building
+      # knowledge
+      - research
+      - benchmark
+      - trend-analysis
+      - playbook
+      - digest
+    description: "도메인 내 하위 컴포넌트"
+
+  context:
+    type: string
+    min_length: 20
+    max_length: 300
+    description: "어떤 상황에서 이 인사이트가 나왔는지 (1-3문장)"
+
+  key_learning:
+    type: string
+    min_length: 10
+    max_length: 200
+    description: "핵심 교훈 한 문장"
+
+  impact:
+    type: enum
+    values: [critical, high, medium, low]
+    description: "인사이트의 영향 범위와 중요도"
+
+  tags:
+    type: array[string]
+    min_items: 1
+    max_items: 8
+    description: "검색용 키워드 (lowercase, hyphen-separated)"
+
+optional_fields:
+  related_components:
+    type: array[string]
+    description: "'domain/component' 형식"
+  partner:
+    type: string
+  client:
+    type: string
+  evidence:
+    type: array[string]
+  decision_maker:
+    type: array[string]
+  status:
+    type: enum
+    values: [validated, hypothesis, superseded, archived]
+    default: validated
+  source_event:
+    type: string
+  action_items:
+    type: array[string]
+
+domain_component_mapping:
+  guild: [operations, culture, hiring, sync, decision-making, season-planning]
+  contents: [linkedin, youtube, studio-haein, newsletter, content-strategy]
+  community: [meetup, club, event, online]
+  business: [consulting, oss-product, partnership, sales, company-building]
+  knowledge: [research, benchmark, trend-analysis, playbook, digest]
+
+category_mapping:
+  strategy_decision: "knowledge/solutions/strategy-decisions/"
+  resource_allocation: "knowledge/solutions/strategy-decisions/"
+  process_improvement: "knowledge/solutions/process-improvements/"
+  tool_discovery: "knowledge/solutions/tool-discoveries/"
+  automation_pattern: "knowledge/solutions/tool-discoveries/"
+  consulting_pattern: "knowledge/solutions/consulting-patterns/"
+  partner_playbook: "knowledge/solutions/partner-playbooks/"
+  sales_learning: "knowledge/solutions/consulting-patterns/"
+  product_insight: "knowledge/solutions/product-insights/"
+  content_pattern: "knowledge/solutions/content-patterns/"
+  audience_signal: "knowledge/solutions/content-patterns/"
+  community_insight: "knowledge/solutions/community-insights/"
+  event_learning: "knowledge/solutions/community-insights/"
+  market_signal: "knowledge/solutions/market-signals/"
+  ecosystem_observation: "knowledge/solutions/market-signals/"
+  culture_learning: "knowledge/solutions/process-improvements/"
+  member_growth: "knowledge/solutions/process-improvements/"
+
+validation_rules:
+  - "date는 YYYY-MM-DD 형식"
+  - "tags는 lowercase, hyphen-separated"
+  - "domain-component 매핑이 유효해야 함"
+  - "context는 구체적 상황 서술 (모호한 표현 금지)"
+  - "key_learning은 다른 상황에도 적용 가능한 일반화된 교훈"
